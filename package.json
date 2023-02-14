@@ -6,6 +6,7 @@
     "start": "nodemon -e js,json,yaml"
   },
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
     "chai": "^4.3.7",
     "chai-http": "^4.3.0",
