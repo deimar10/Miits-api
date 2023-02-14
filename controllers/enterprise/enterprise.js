@@ -5,6 +5,10 @@ exports.register = async (req, res) => {
   try {
     const { password, username } = req.body;
 
+    if (!password || !username) { throw Error('Empty user input error'); }
+
+    if (!password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/)) { throw Error('Password validation error'); }
+
     const saltPassword = await bcrypt.genSalt(5);
     const securePassword = await bcrypt.hash(password, saltPassword);
 
