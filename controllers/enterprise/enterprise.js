@@ -26,27 +26,15 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { password, username } = req.body;
-
-    const isPresentInTable = await db.query('SELECT ettevõtte_nimi FROM kasutaja WHERE ettevõtte_nimi = ?', [username]);
     const registeredPassword = await db.query('SELECT salasõna FROM reg_kontod WHERE ettevõtte_nimi = ?', [username]);
 
-    if (isPresentInTable.length) {
-      bcrypt.compare(password, registeredPassword[0].salasõna, (err, data) => {
-        if (err) throw Error;
-        if (!data) { return res.status(401).json({auth: false}); }
+    bcrypt.compare(password, registeredPassword[0].salasõna, (err, data) => {
+      if (err) throw Error;
+      if (!data) { return res.status(401).json({auth: false}); }
 
-        res.status(200).json({auth: true});
-      });
-    } else {
-      bcrypt.compare(password, registeredPassword[0].salasõna, async (err, data) => {
-        if (err) throw Error;
-        if (!data) { return res.status(401).json({auth: false}); }
+      res.status(200).json({auth: true});
+    });
 
-        await db.query('INSERT INTO `kasutaja` (`ettevõtte_nimi`, `salasõna`) VALUES (?,?)',
-            [username, registeredPassword[0].salasõna]);
-        res.status(200).json({auth: true});
-      });
-    }
   } catch (error) {
     console.log(`Error authenticating enterprise login input: ${error}`);
     return res.status(400).send();
