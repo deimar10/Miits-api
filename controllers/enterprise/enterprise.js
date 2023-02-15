@@ -4,10 +4,13 @@ const bcrypt = require('bcrypt');
 exports.register = async (req, res) => {
   try {
     const { password, username } = req.body;
+    const isNameRegistered = await db.query('SELECT ettevõtte_nimi FROM reg_kontod WHERE ettevõtte_nimi = ?', [username]);
 
     if (!password || !username) { throw Error('Empty user input error'); }
 
     if (!password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/)) { throw Error('Password validation error'); }
+
+    if (isNameRegistered[0]) { throw Error('Name already taken'); }
 
     const saltPassword = await bcrypt.genSalt(5);
     const securePassword = await bcrypt.hash(password, saltPassword);
@@ -18,7 +21,7 @@ exports.register = async (req, res) => {
     return res.status(200).send();
 
   } catch (error) {
-    console.log(`Error inserting enterprise register data: ${error}`);
+    console.log(`${error}`);
     return res.status(400).send();
   }
 }
