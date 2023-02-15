@@ -43,3 +43,45 @@ exports.login = async (req, res) => {
     return res.status(400).send();
   }
 }
+
+exports.createOffer = async (req, res) => {
+  try {
+    const { upcoming, favorite, enterprise, title, category,
+      location,
+      date,
+      price,
+      image,
+      description
+    } = req.body;
+
+    let slug = title;
+    const regEnterpriseId = await db.query('SELECT reg_konto_id FROM reg_kontod WHERE ettevõtte_nimi = ?', [enterprise]);
+
+    const result = await db.query(
+        'INSERT INTO `pakkumised` (`upcoming`, `favorite`, `enterprise`, `title`, `category`, `slug`, `location`, `date`, `price`, `image`, `description`, `reg_konto_fk`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)', [
+        upcoming, favorite, enterprise, title, category, slug, location, date, price, image, description, regEnterpriseId[0].reg_konto_id
+    ]);
+
+    if (result.affectedRows) {
+        return res.status(201).json({
+            id: result.insertId,
+            upcoming: upcoming,
+            favorite: favorite,
+            enterprise: enterprise,
+            title: title,
+            category: category,
+            location: location,
+            slug: slug,
+            date: date,
+            price: price,
+            image: image,
+            description: description,
+            feedback: []
+        });
+    }
+
+  } catch (error) {
+    console.log(`Error trying to create new offer: ${error}`);
+    return res.status(400).send();
+  }
+}
