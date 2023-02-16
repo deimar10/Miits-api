@@ -86,6 +86,26 @@ exports.createOffer = async (req, res) => {
   }
 }
 
+exports.editOffer = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const { title, location, date,
+            price,
+            description,
+            category
+        } = req.body;
+
+        await db.query('UPDATE pakkumised SET title = ?, location = ?, date = ?, price = ?, description = ?, category = ? WHERE pakkumised_id = ?',
+            [title, location, date, price, description, category, id]);
+
+        return res.status(200).send();
+
+    } catch (error) {
+        console.log(`Error trying to edit offer: ${error}`);
+        return res.status(400).send();
+    }
+}
+
 exports.deleteOffer = async (req, res) => {
     try {
         const id = req.params.id;
