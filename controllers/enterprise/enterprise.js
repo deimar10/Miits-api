@@ -85,3 +85,16 @@ exports.createOffer = async (req, res) => {
     return res.status(400).send();
   }
 }
+
+exports.deleteOffer = async (req, res) => {
+    try {
+        const id = req.params.id;
+        await db.query('DELETE FROM pakkumised WHERE pakkumised_id = ?', [id]);
+
+        return res.status(204).send();
+
+    } catch (error) {
+      console.log(`Error trying to delete offer: ${error}`);
+      return res.status(400).send();
+    }
+}
