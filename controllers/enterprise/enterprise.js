@@ -1,4 +1,4 @@
-const sanitizeInput = require('../../utils/index');
+const { sanitizeInput, checkDateFormat } = require('../../utils/index');
 const db = require('../../models/db');
 const bcrypt = require('bcrypt');
 
@@ -55,6 +55,10 @@ exports.createOffer = async (req, res) => {
       description
     } = sanitizeInput(req.body);
 
+    let isCorrectFormat = checkDateFormat(date);
+
+    if(!isCorrectFormat) { throw Error('Incorrect date Format'); }
+
     let slug = title;
     const regEnterpriseId = await db.query('SELECT reg_konto_id FROM reg_kontod WHERE ettevõtte_nimi = ?', [enterprise]);
 
@@ -95,6 +99,10 @@ exports.editOffer = async (req, res) => {
             description,
             category
         } = sanitizeInput(req.body);
+
+        let isCorrectFormat = checkDateFormat(date);
+
+        if(!isCorrectFormat) { throw Error('Incorrect date Format'); }
 
         await db.query('UPDATE pakkumised SET title = ?, location = ?, date = ?, price = ?, description = ?, category = ? WHERE pakkumised_id = ?',
             [title, location, date, price, description, category, id]);
