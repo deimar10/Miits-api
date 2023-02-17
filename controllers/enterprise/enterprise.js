@@ -1,3 +1,4 @@
+const sanitizeInput = require('../../utils/index');
 const db = require('../../models/db');
 const bcrypt = require('bcrypt');
 
@@ -52,7 +53,7 @@ exports.createOffer = async (req, res) => {
       price,
       image,
       description
-    } = req.body;
+    } = sanitizeInput(req.body);
 
     let slug = title;
     const regEnterpriseId = await db.query('SELECT reg_konto_id FROM reg_kontod WHERE ettevõtte_nimi = ?', [enterprise]);
@@ -93,7 +94,7 @@ exports.editOffer = async (req, res) => {
             price,
             description,
             category
-        } = req.body;
+        } = sanitizeInput(req.body);
 
         await db.query('UPDATE pakkumised SET title = ?, location = ?, date = ?, price = ?, description = ?, category = ? WHERE pakkumised_id = ?',
             [title, location, date, price, description, category, id]);
