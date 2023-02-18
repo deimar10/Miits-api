@@ -56,6 +56,12 @@ exports.getOffers = async (req, res) => {
         [regEnterpriseId[0].reg_konto_id]);
 
     const offers = await assignFeedbackToOffer(enterpriseOffers);
+
+    offers.map((offer) => {
+        offer.upcoming = false;
+        offer.favorite = false;
+    })
+
     return res.status(200).json(offers);
 
   } catch (error) {
