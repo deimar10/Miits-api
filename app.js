@@ -9,9 +9,10 @@ dotenv.config();
 app.use(cors());
 
 const enterpriseRouter = require('./routes/enterprise/enterprise.js');
+const userRouter = require('./routes/user/user.js');
 
 app.use(bodyParser.json());
-app.use("/miits/api", enterpriseRouter);
+app.use("/miits/api", enterpriseRouter, userRouter);
 
 const port = process.env.PORT || 3002;
 app.listen(3002, () => console.log(`Server started on port: ${port}`));

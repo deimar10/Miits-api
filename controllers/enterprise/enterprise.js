@@ -70,8 +70,10 @@ exports.getOffers = async (req, res) => {
 }
 
 async function assignFeedbackToOffer(offers) {
+    let feedback;
+
     for (let offer of offers) {
-        let feedback = await db.query('SELECT * FROM tagasiside WHERE pakkumised_fk = ?', [offer.pakkumised_id]);
+        feedback = await db.query('SELECT * FROM tagasiside WHERE pakkumised_fk = ?', [offer.pakkumised_id]);
         offer.feedback = feedback;
     }
     return offers;
