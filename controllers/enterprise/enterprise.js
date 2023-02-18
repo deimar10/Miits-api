@@ -55,11 +55,10 @@ exports.getOffers = async (req, res) => {
     const enterpriseOffers = await db.query('SELECT * FROM pakkumised WHERE reg_konto_fk = ?',
         [regEnterpriseId[0].reg_konto_id]);
 
-    const offers = await assignFeedbackToOffer(enterpriseOffers);
+   let offers = await assignFeedbackToOffer(enterpriseOffers);
 
-    offers.map((offer) => {
-        offer.upcoming = false;
-        offer.favorite = false;
+    offers = offers.map((offer) => {
+        return {...offer, upcoming: false, favorite: false}
     })
 
     return res.status(200).json(offers);
