@@ -45,6 +45,33 @@ exports.login = async (req, res) => {
   }
 }
 
+exports.getOffers = async (req, res) => {
+  try {
+    let { enterprise } = req.query;
+
+    const regEnterpriseId = await db.query('SELECT reg_konto_id FROM reg_kontod WHERE ettevõtte_nimi = ?',
+        [enterprise]);
+
+    const enterpriseOffers = await db.query('SELECT * FROM pakkumised WHERE reg_konto_fk = ?',
+        [regEnterpriseId[0].reg_konto_id]);
+
+    const offers = await assignFeedbackToOffer(enterpriseOffers);
+    return res.status(200).json(offers);
+
+  } catch (error) {
+    console.log(`Error trying to get enterprise offers: ${error}`);
+    return res.status(400).send();
+  }
+}
+
+async function assignFeedbackToOffer(offers) {
+    for (let offer of offers) {
+        let feedback = await db.query('SELECT * FROM tagasiside WHERE pakkumised_fk = ?', [offer.pakkumised_id]);
+        offer.feedback = feedback;
+    }
+    return offers;
+}
+
 exports.createOffer = async (req, res) => {
   try {
     const { upcoming, favorite, enterprise, title, category,
