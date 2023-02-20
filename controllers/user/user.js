@@ -35,7 +35,7 @@ exports.getSingleOffer = async (req, res) => {
         const offerByTitle = await db.query('SELECT * FROM pakkumised WHERE title = ?', [offerTitle]);
         const offer = await assignFeedbackToOffer(offerByTitle);
 
-        return res.status(200).json(offer);
+        return res.status(200).json(offer[0]);
 
     } catch (error) {
       console.log(`Error trying to get single offer: ${error}`);
