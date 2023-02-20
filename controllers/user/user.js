@@ -28,6 +28,21 @@ async function assignFeedbackToOffer(offers) {
     return offers;
 }
 
+exports.getSingleOffer = async (req, res) => {
+    try {
+        const offerTitle = req.params.title;
+
+        const offerByTitle = await db.query('SELECT * FROM pakkumised WHERE title = ?', [offerTitle]);
+        const offer = await assignFeedbackToOffer(offerByTitle);
+
+        return res.status(200).json(offer);
+
+    } catch (error) {
+      console.log(`Error trying to get single offer: ${error}`);
+      return res.status(400).send();
+    }
+}
+
 exports.createUserFeedback = async (req, res) => {
     try {
         const offerTitle = req.params.title;
