@@ -16,3 +16,5 @@ app.use("/miits/api", enterpriseRouter, userRouter);
 
 const port = process.env.PORT || 3002;
 app.listen(3002, () => console.log(`Server started on port: ${port}`));
+
+module.exports = app;
