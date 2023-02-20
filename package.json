@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon -e js,json,yaml"
+    "start": "nodemon -e js,json,yaml",
+    "test": "mocha spec"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
