@@ -103,7 +103,7 @@ exports.createOffer = async (req, res) => {
 
     if (result.affectedRows) {
         return res.status(201).json({
-            id: result.insertId,
+            pakkumised_id: result.insertId,
             upcoming: upcoming,
             favorite: favorite,
             enterprise: enterprise,
