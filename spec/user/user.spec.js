@@ -57,8 +57,8 @@ describe('Testing user endpoints', () => {
             .end((err, res) => {
                 res.should.have.status(201);
                 res.body.should.have.property('tagasiside_id');
-                res.body.should.have.property('name');
-                res.body.should.have.property('comment');
+                res.body.should.have.property('name', 'Martin');
+                res.body.should.have.property('comment', 'Mega pidu!');
             });
     });
 });
