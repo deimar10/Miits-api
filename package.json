@@ -4,7 +4,7 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon -e js,json,yaml",
-    "test": "mocha spec"
+    "test": "mocha spec/**/*.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
