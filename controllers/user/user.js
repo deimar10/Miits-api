@@ -1,4 +1,4 @@
-const { assignFeedbackToOffer } = require('../../utils/index');
+const { sanitizeInput, assignFeedbackToOffer } = require('../../utils/index');
 const db = require('../../models/db');
 
 exports.getOffers = async (req, res) => {
@@ -37,7 +37,7 @@ exports.getSingleOffer = async (req, res) => {
 exports.createUserFeedback = async (req, res) => {
     try {
         const offerTitle = req.params.title;
-        const {name, comment} = req.body;
+        const { name, comment } = sanitizeInput(req.body);
 
         const offerId = await db.query('SELECT pakkumised_id FROM pakkumised WHERE title = ?', [offerTitle]);
 
