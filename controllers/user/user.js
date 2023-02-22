@@ -1,3 +1,4 @@
+const { assignFeedbackToOffer } = require('../../utils/index');
 const db = require('../../models/db');
 
 exports.getOffers = async (req, res) => {
@@ -16,16 +17,6 @@ exports.getOffers = async (req, res) => {
         console.log(`Error trying to get user offers: ${error}`);
         return res.status(400).send();
     }
-}
-
-async function assignFeedbackToOffer(offers) {
-    let feedback;
-
-    for (let offer of offers) {
-        feedback = await db.query('SELECT * FROM tagasiside WHERE pakkumised_fk = ?', [offer.pakkumised_id]);
-        offer.feedback = feedback;
-    }
-    return offers;
 }
 
 exports.getSingleOffer = async (req, res) => {

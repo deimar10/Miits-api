@@ -1,4 +1,4 @@
-const {sanitizeInput, checkDateFormat} = require('../../utils/index');
+const { sanitizeInput, checkDateFormat, assignFeedbackToOffer } = require('../../utils/index');
 const db = require('../../models/db');
 const bcrypt = require('bcrypt');
 
@@ -75,16 +75,6 @@ exports.getOffers = async (req, res) => {
         console.log(`Error trying to get enterprise offers: ${error}`);
         return res.status(400).send();
     }
-}
-
-async function assignFeedbackToOffer(offers) {
-    let feedback;
-
-    for (let offer of offers) {
-        feedback = await db.query('SELECT * FROM tagasiside WHERE pakkumised_fk = ?', [offer.pakkumised_id]);
-        offer.feedback = feedback;
-    }
-    return offers;
 }
 
 exports.createOffer = async (req, res) => {
