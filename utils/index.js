@@ -11,4 +11,4 @@ function checkDateFormat(date) {
     return date.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
 }
 
-module.exports = { sanitizeInput, checkDateFormat }
+module.exports = {sanitizeInput, checkDateFormat}
