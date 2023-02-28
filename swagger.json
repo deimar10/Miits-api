@@ -1,0 +1,798 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Miits-api",
+    "version": "1.0.0",
+    "description": ""
+  },
+  "servers": [
+    {
+      "url": "localhost:3002",
+      "description": ""
+    }
+  ],
+  "paths": {
+    "/miits/api/user/offers": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/offer"
+                  }
+                },
+                "examples": {
+                  "offers": {
+                    "value": [
+                      {
+                        "id": 1,
+                        "upcoming": false,
+                        "favorite": false,
+                        "enterprise": "Shooters",
+                        "title": "GigaBang-Shooters",
+                        "category": "Event",
+                        "slug": "GigaBang-Shooters",
+                        "location": "Tartu",
+                        "date": "01.08.2023",
+                        "price": 35,
+                        "image": "/assets/Images/offers/gigabang.jpg",
+                        "description": "Tänavune suurim üritus, kus Dj Matrix & Lulle astuvad taas kord Shoortersis lavale.",
+                        "feedback": [
+                          {
+                            "name": "Madis",
+                            "comment": "Lahe sündmus. Natuke kallis."
+                          },
+                          {
+                            "name": "Milfe",
+                            "comment": "Ei jõua ära oodata!"
+                          },
+                          {
+                            "name": "Tauri",
+                            "comment": "Muljetavaldav kraam. Kindlasti kutsun kõik oma sõbrad."
+                          },
+                          {
+                            "name": "Kalle",
+                            "comment": "Sheeeesh. See teeb minu aasta!"
+                          },
+                          {
+                            "name": "Shaggy",
+                            "comment": "Ma loodan, et see on parem kui eelmise aasta pidu."
+                          }
+                        ]
+                      },
+                      {
+                        "id": 2,
+                        "upcoming": false,
+                        "favorite": false,
+                        "enterprise": "KolmTilli",
+                        "title": "Triple-Effect",
+                        "category": "Drinks",
+                        "slug": "Triple-Effect",
+                        "location": "Tartu",
+                        "date": "01.24.2023",
+                        "price": 16.99,
+                        "image": "/assets/Images/offers/triple-effect.jpg",
+                        "description": "Tulge nautima meie hästi tasakaalustatud džinnikokteile baaris Kolm Tilli.",
+                        "feedback": [
+                          {
+                            "name": "Marit",
+                            "comment": "Kõlab suurepäraselt!"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "description": "Offers requested `successfully`"
+          },
+          "400": {
+            "description": "Could not successfully retrieve all enterprise related offers"
+          }
+        },
+        "summary": "Get all enterprise related offers",
+        "description": "Get all enterprise related `offers`"
+      }
+    },
+    "/miits/api/user/offers/offer-details/:title": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "title",
+            "description": "",
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/offer"
+                },
+                "examples": {
+                  "single offer": {
+                    "value": {
+                      "id": 1,
+                      "upcoming": false,
+                      "favorite": false,
+                      "enterprise": "Shooters",
+                      "title": "GigaBang-Shooters",
+                      "category": "Event",
+                      "slug": "GigaBang-Shooters",
+                      "location": "Tartu",
+                      "date": "01.08.2023",
+                      "price": 35,
+                      "image": "/assets/Images/offers/gigabang.jpg",
+                      "description": "Tänavune suurim üritus, kus Dj Matrix & Lulle astuvad taas kord Shoortersis lavale.",
+                      "feedback": [
+                        {
+                          "name": "Madis",
+                          "comment": "Lahe sündmus. Natuke kallis."
+                        },
+                        {
+                          "name": "Milfe",
+                          "comment": "Ei jõua ära oodata!"
+                        },
+                        {
+                          "name": "Tauri",
+                          "comment": "Muljetavaldav kraam. Kindlasti kutsun kõik oma sõbrad."
+                        },
+                        {
+                          "name": "Kalle",
+                          "comment": "Sheeeesh. See teeb minu aasta!"
+                        },
+                        {
+                          "name": "Shaggy",
+                          "comment": "Ma loodan, et see on parem kui eelmise aasta pidu."
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Offer requested `successfully`"
+          },
+          "400": {
+            "description": "Could not retrieve the requested offer: missing query parameter or wrong endpoint"
+          }
+        },
+        "summary": "Get a single enterprise related offer",
+        "description": "Get a single offer - based on offer `title`"
+      }
+    },
+    "/miits/api/user/feedback/:title": {
+      "summary": "User feedback",
+      "description": "Create new user feedback - assigned to offer based on offer `title`",
+      "post": {
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/feedback"
+              },
+              "examples": {
+                "offer feedback": {
+                  "value": {
+                    "name": "Martin",
+                    "comment": "Väga lahe! Kindlasti osalen."
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "title",
+            "description": "",
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/feedback"
+                },
+                "examples": {
+                  "feedback": {
+                    "value": {
+                      "tagasiside_id": 2,
+                      "name": "Martin",
+                      "comment": "Väga lahe! Kindlasti osalen."
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Feedback created `successfully`"
+          },
+          "400": {
+            "description": "Could not create new offer feedback: missing parameters or wrong endpoint"
+          }
+        },
+        "summary": "Create a new feedback",
+        "description": "Create new user feedback - assigned to offer based on offer `title`"
+      }
+    },
+    "/miits/api/enterprise/register": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/account"
+              },
+              "examples": {
+                "registration": {
+                  "value": {
+                    "username": "Shooters",
+                    "password": "UumpaLuumpa!1"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "tags": [
+          "Enterprise"
+        ],
+        "responses": {
+          "201": {
+            "description": "Enterprise account registration `success`"
+          },
+          "400": {
+            "description": "Could not successfully register an enterprise account: validation errors, missing parameters or wrong endpoint"
+          }
+        },
+        "summary": "Create a new enterprise account",
+        "description": "Create a registered account"
+      }
+    },
+    "/miits/api/enterprise/login": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/account"
+              },
+              "examples": {
+                "enterprise login ": {
+                  "value": {
+                    "username": "Shooters",
+                    "password": "UumpaLuumpa1!"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "tags": [
+          "Enterprise"
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "auth": {
+                    "value": {
+                      "auth": true
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Enterprise login `successful`"
+          },
+          "400": {
+            "description": "Could not create enterprise login session: missing request parameters or wrong endpoint"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "auth": {
+                    "value": {
+                      "auth": false
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Invalid `password`"
+          }
+        },
+        "summary": "Create an enterprise login session"
+      }
+    },
+    "/miits/api/enterprise/offers": {
+      "get": {
+        "tags": [
+          "Enterprise"
+        ],
+        "parameters": [
+          {
+            "name": "enterprise",
+            "description": "",
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {}
+                },
+                "examples": {
+                  "specific offers": {
+                    "value": [
+                      {
+                        "id": 1,
+                        "upcoming": false,
+                        "favorite": false,
+                        "enterprise": "Shooters",
+                        "title": "GigaBang-Shooters",
+                        "category": "Event",
+                        "slug": "GigaBang-Shooters",
+                        "location": "Tartu",
+                        "date": "01.08.2023",
+                        "price": 35,
+                        "image": "/assets/Images/offers/gigabang.jpg",
+                        "description": "Tänavune suurim üritus, kus Dj Matrix & Lulle astuvad taas kord Shoortersis lavale.",
+                        "feedback": [
+                          {
+                            "name": "Madis",
+                            "comment": "Lahe sündmus. Natuke kallis."
+                          },
+                          {
+                            "name": "Milfe",
+                            "comment": "Ei jõua ära oodata!"
+                          },
+                          {
+                            "name": "Tauri",
+                            "comment": "Muljetavaldav kraam. Kindlasti kutsun kõik oma sõbrad."
+                          },
+                          {
+                            "name": "Kalle",
+                            "comment": "Sheeeesh. See teeb minu aasta!"
+                          },
+                          {
+                            "name": "Shaggy",
+                            "comment": "Ma loodan, et see on parem kui eelmise aasta pidu."
+                          }
+                        ]
+                      },
+                      {
+                        "id": 2,
+                        "upcoming": false,
+                        "favorite": false,
+                        "enterprise": "Shooters",
+                        "title": "Triple-Effect",
+                        "category": "Drinks",
+                        "slug": "Triple-Effect",
+                        "location": "Tartu",
+                        "date": "01.24.2023",
+                        "price": 16.99,
+                        "image": "/assets/Images/offers/triple-effect.jpg",
+                        "description": "Tulge nautima meie hästi tasakaalustatud džinnikokteile klubi Shooters",
+                        "feedback": [
+                          {
+                            "name": "Marit",
+                            "comment": "Kõlab suurepäraselt!"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "description": "Successfully retrieved all enterprise `specific` offers"
+          },
+          "400": {
+            "description": "Could not successfully retrieve enterprise `specific` offers: wrong request parameter or endpoint"
+          }
+        },
+        "summary": "Get enterprise specific offers"
+      }
+    },
+    "/miits/api/enterprise/offer/create": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/newOffer"
+              },
+              "examples": {
+                "create offer": {
+                  "value": {
+                    "upcoming": false,
+                    "favorite": false,
+                    "enterprise": "Level",
+                    "title": "Vilista",
+                    "category": "Event",
+                    "location": "Tartu",
+                    "date": "06.20.2023",
+                    "price": 20,
+                    "image": "image/url/enterprise/level/vilista.jpeg",
+                    "description": "Vilistlaste pidu Tartus - klubi Level"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "tags": [
+          "Enterprise"
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "create offer": {
+                    "value": {
+                      "pakkumised_id": 23,
+                      "upcoming": false,
+                      "favorite": false,
+                      "enterprise": "Level",
+                      "title": "Vilista",
+                      "category": "Event",
+                      "location": "Tartu",
+                      "date": "06.20.2023",
+                      "price": 20,
+                      "image": "image/url/enterprise/level/vilista.jpeg",
+                      "description": "Vilistlaste pidu Tartus - klubi Level",
+                      "feedback": []
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Enterprise offer created `successfully`"
+          },
+          "400": {
+            "description": "Could not create a new enterprise specific offer: missing input in request body or wrong endpoint"
+          }
+        },
+        "summary": "Create an enterprise specific offer"
+      }
+    },
+    "/miits/api/enterprise/offer/edit/:id": {
+      "put": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/editOffer"
+              },
+              "examples": {
+                "edit offer": {
+                  "value": {
+                    "title": "Vilistlane",
+                    "location": "Pärnu",
+                    "date": "06.20.2023",
+                    "price": 20,
+                    "description": "Mega pidu. Kohale tuleb Ivo Eedo, koos Maritiga",
+                    "category": "Event"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "tags": [
+          "Enterprise"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "",
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Enterprise specific offer successfully `edited`"
+          },
+          "400": {
+            "description": "Could not edit enterprise specific offer: missing parameters or missing input"
+          }
+        },
+        "summary": "Edit an enterprise specific offer"
+      }
+    },
+    "/miits/api/enterprise/offer/delete/:id": {
+      "delete": {
+        "tags": [
+          "Enterprise"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "",
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Enterprise specific offer deleted `successfully`"
+          },
+          "400": {
+            "description": "Could not delete enterprise specific offer: missing parameter"
+          }
+        },
+        "summary": "Delete an enterprise specific offer"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "feedback": {
+        "title": "Root Type for feedback",
+        "description": "",
+        "type": "object",
+        "properties": {
+          "tagasiside_id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "comment": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "tagasiside_id": 2,
+          "name": "Martin",
+          "comment": "Lahe värk! Osalen kindlasti."
+        }
+      },
+      "offer": {
+        "title": "Root Type for offer",
+        "description": "",
+        "type": "object",
+        "properties": {
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "upcoming": {
+            "type": "boolean"
+          },
+          "favorite": {
+            "type": "boolean"
+          },
+          "enterprise": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "price": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "image": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "feedback": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "comment": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "id": 1,
+          "upcoming": false,
+          "favorite": false,
+          "enterprise": "Shooters",
+          "title": "GigaBang-Shooters",
+          "category": "Event",
+          "slug": "GigaBang-Shooters",
+          "location": "Tartu",
+          "date": "01.08.2023",
+          "price": 35,
+          "image": "/assets/Images/offers/gigabang.jpg",
+          "description": "Tänavune suurim üritus, kus Dj Matrix & Lulle astuvad taas kord Shoortersis lavale.",
+          "feedback": [
+            {
+              "name": "Madis",
+              "comment": "Lahe sündmus. Natuke kallis."
+            },
+            {
+              "name": "Milfe",
+              "comment": "Ei jõua ära oodata!"
+            },
+            {
+              "name": "Tauri",
+              "comment": "Muljetavaldav kraam. Kindlasti kutsun kõik oma sõbrad."
+            },
+            {
+              "name": "Kalle",
+              "comment": "Sheeeesh. See teeb minu aasta!"
+            },
+            {
+              "name": "Shaggy",
+              "comment": "Ma loodan, et see on parem kui eelmise aasta pidu."
+            }
+          ]
+        }
+      },
+      "account": {
+        "title": "Root Type for account",
+        "description": "",
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "username": "Shooters",
+          "password": "UumpaLuumpa1!"
+        }
+      },
+      "newOffer": {
+        "title": "Root Type for newOffer",
+        "description": "",
+        "type": "object",
+        "properties": {
+          "upcoming": {
+            "type": "boolean"
+          },
+          "favorite": {
+            "type": "boolean"
+          },
+          "enterprise": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "price": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "image": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "upcoming": false,
+          "favorite": false,
+          "enterprise": "Level",
+          "title": "Vilista",
+          "category": "Event",
+          "location": "Tartu",
+          "date": "06.20.2023",
+          "price": 20,
+          "image": "image/url/enterprise/level/vilista.jpeg",
+          "description": "Vilistlaste pidu Tartus - klubi Level"
+        }
+      },
+      "editOffer": {
+        "title": "Root Type for editOffer",
+        "description": "",
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "price": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "description": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "title": "Vilistlane",
+          "location": "Pärnu",
+          "date": "06.20.2023",
+          "price": 20,
+          "description": "Mega pidu. Kohale tuleb Ivo Eedo, koos Maritiga",
+          "category": "Event"
+        }
+      }
+    }
+  }
+}

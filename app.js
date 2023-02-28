@@ -1,10 +1,14 @@
 const express = require('express');
 const app = express();
+const swaggerUI = require('swagger-ui-express');
+const swaggerSpec = require('./swagger.json');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const dotenv = require('dotenv');
 dotenv.config();
+
+app.use('/miits/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 app.use(cors());
 
