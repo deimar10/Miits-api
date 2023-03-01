@@ -25,7 +25,7 @@ exports.register = async (req, res) => {
         await db.query('INSERT INTO `reg_kontod` (`ettevõtte_nimi`, `salasõna`) VALUES (?,?)',
             [username, securePassword]);
 
-        return res.status(200).send();
+        return res.status(201).send();
 
     } catch (error) {
         console.log(`${error}`);
@@ -44,7 +44,7 @@ exports.login = async (req, res) => {
                 return res.status(401).json({auth: false});
             }
 
-            res.status(200).json({auth: true});
+            res.status(201).json({auth: true});
         });
 
     } catch (error) {
