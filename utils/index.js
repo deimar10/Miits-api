@@ -17,7 +17,7 @@ async function assignFeedbackToOffer(offers) {
     let feedback;
 
     for (let offer of offers) {
-        feedback = await db.query('SELECT * FROM tagasiside WHERE pakkumised_fk = ?', [offer.pakkumised_id]);
+        feedback = await db.query('SELECT * FROM tagasiside WHERE pakkumised_fk = ?', [offer.id]);
         offer.feedback = feedback;
     }
     return offers;

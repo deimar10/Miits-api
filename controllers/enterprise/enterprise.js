@@ -104,7 +104,7 @@ exports.createOffer = async (req, res) => {
 
         if (result.affectedRows) {
             return res.status(201).json({
-                pakkumised_id: result.insertId,
+                id: result.insertId,
                 upcoming: upcoming,
                 favorite: favorite,
                 enterprise: enterprise,
@@ -142,7 +142,7 @@ exports.editOffer = async (req, res) => {
             throw Error('Incorrect date Format');
         }
 
-        await db.query('UPDATE pakkumised SET title = ?, location = ?, date = ?, price = ?, description = ?, category = ? WHERE pakkumised_id = ?',
+        await db.query('UPDATE pakkumised SET title = ?, location = ?, date = ?, price = ?, description = ?, category = ? WHERE id = ?',
             [title, location, date, price, description, category, id]);
 
         return res.status(200).send();
@@ -156,7 +156,7 @@ exports.editOffer = async (req, res) => {
 exports.deleteOffer = async (req, res) => {
     try {
         const id = req.params.id;
-        await db.query('DELETE FROM pakkumised WHERE pakkumised_id = ?', [id]);
+        await db.query('DELETE FROM pakkumised WHERE id = ?', [id]);
 
         return res.status(204).send();
 
