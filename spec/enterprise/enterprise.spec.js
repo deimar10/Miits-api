@@ -16,7 +16,7 @@ describe('Testing enterprise endpoints', () => {
             .post(`${prefix}/enterprise/register`)
             .send({ username: 'KolmTilli', password: 'Lollakas1!'})
             .end((err, res) => {
-                res.should.have.status(200);
+                res.should.have.status(201);
                 done();
         });
     });
@@ -56,7 +56,7 @@ describe('Testing enterprise endpoints', () => {
             .post(`${prefix}/enterprise/login`)
             .send({ username: 'KolmTilli', password: 'Lollakas1!' })
             .end((err, res) => {
-                res.should.have.status(200);
+                res.should.have.status(201);
                 res.body.should.be.an('object');
                 res.body.should.have.property('auth', true);
                 done();
@@ -101,11 +101,11 @@ describe('Testing enterprise endpoints', () => {
             .end((err, res) => {
                 res.should.have.status(201);
                 res.body.should.be.an('object');
-                res.body.should.have.a.property('pakkumised_id');
+                res.body.should.have.a.property('id');
                 res.body.should.have.a.property('title', 'UusAlgus');
                 res.body.should.have.a.property('enterprise', 'KolmTilli');
                 res.body.should.have.a.property('price', 49.99);
-                offerId = res.body.pakkumised_id;
+                offerId = res.body.id;
                 done();
             });
     });

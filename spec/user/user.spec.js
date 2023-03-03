@@ -16,11 +16,11 @@ describe('Testing user endpoints', () => {
             .end((err, res) => {
                 res.should.have.status(200);
                 res.body.should.be.an('array');
-                res.body.should.all.have.property('pakkumised_id');
+                res.body.should.all.have.property('id');
                 res.body.should.all.have.property('feedback');
                 res.body.should.all.have.property('title');
                 res.body.should.deep.include({
-                    pakkumised_id: 48,
+                    id: 48,
                     favorite: false,
                     upcoming: false,
                     enterprise: 'Level',
@@ -44,7 +44,7 @@ describe('Testing user endpoints', () => {
             .end((err, res) => {
                 res.should.have.status(200);
                 res.body.should.be.an('object');
-                res.body.should.have.property('pakkumised_id', 48);
+                res.body.should.have.property('id', 48);
                 res.body.should.have.property('title', 'Mimmer');
                 res.body.should.have.property('reg_konto_fk', 1);
             });
