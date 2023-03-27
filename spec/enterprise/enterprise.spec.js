@@ -156,4 +156,13 @@ describe('Testing enterprise endpoints', () => {
             });
     });
 
+    it('should successfully get the count of enterprise offers', () => {
+        chai.request(server)
+            .get(`${prefix}/enterprise/offers/Level/count`)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.an('object');
+                res.body.should.have.property('count', 2);
+            });
+    });
 });

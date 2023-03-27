@@ -9,5 +9,6 @@ router.get('/enterprise/offers', enterpriseController.getOffers);
 router.post('/enterprise/offer/create', enterpriseController.createOffer);
 router.put('/enterprise/offer/edit/:id', enterpriseController.editOffer);
 router.delete('/enterprise/offer/delete/:id', enterpriseController.deleteOffer);
+router.get('/enterprise/offers/:enterprise/count', enterpriseController.getOffersCount);
 
 module.exports = router;

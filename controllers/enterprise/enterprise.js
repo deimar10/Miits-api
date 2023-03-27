@@ -165,3 +165,16 @@ exports.deleteOffer = async (req, res) => {
         return res.status(400).send();
     }
 }
+
+exports.getOffersCount = async (req, res) => {
+    try {
+        const enterprise = req.params.enterprise;
+        const result = await db.query('SELECT COUNT(*) as count FROM pakkumised WHERE enterprise = ?', [enterprise]);
+
+        return res.status(200).json(result[0]);
+
+    } catch (error) {
+        console.log(`Error trying to get offer count: ${error}`);
+        return res.status(400).send();
+    }
+}
