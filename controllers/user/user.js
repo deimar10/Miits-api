@@ -34,6 +34,26 @@ exports.getSingleOffer = async (req, res) => {
     }
 }
 
+exports.getLocations = async (req, res) => {
+    try {
+        let locations = [];
+
+        const result = await db.query('SELECT location FROM pakkumised');
+
+        result.forEach(obj => {
+            if (!locations.includes(obj.location)) {
+                locations.push(obj.location);
+            }
+        });
+
+        return res.status(200).json(locations);
+
+    } catch (error) {
+        console.log(`Error trying to get offer locations: ${error}`);
+        return res.status(400).send();
+    }
+}
+
 exports.createUserFeedback = async (req, res) => {
     try {
         const offerTitle = req.params.title;

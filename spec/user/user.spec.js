@@ -61,4 +61,13 @@ describe('Testing user endpoints', () => {
                 res.body.should.have.property('comment', 'Mega pidu!');
             });
     });
+
+    it('should get all offer assigned locations', () => {
+        chai.request(server)
+            .get(`${prefix}/user/offers/locations`)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.an('array');
+            });
+    });
 });
