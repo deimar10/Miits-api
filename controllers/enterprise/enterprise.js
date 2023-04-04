@@ -44,7 +44,14 @@ exports.login = async (req, res) => {
                 return res.status(401).json({auth: false});
             }
 
-            res.status(201).json({auth: true});
+            switch (username) {
+                case 'Admin':
+                    res.status(201).json({admin: true});
+                    break;
+                default:
+                    res.status(201).json({auth: true});
+                    break;
+            }
         });
 
     } catch (error) {
