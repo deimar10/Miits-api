@@ -192,3 +192,26 @@ exports.getOffersCount = async (req, res) => {
         return res.status(400).send();
     }
 }
+
+exports.getRegistered = async (req, res) => {
+    try {
+        let registered = [];
+
+        const result = await db.query('SELECT * FROM reg_kontod');
+
+        result.forEach(obj => {
+            if (obj.ettevõtte_nimi !== 'Admin') { registered.push({
+                id: obj.reg_konto_id,
+                name: obj.ettevõtte_nimi,
+                joined_at: obj.kuupäev
+            });
+            }
+        });
+
+        return res.status(200).json(registered);
+
+    } catch (error) {
+        console.log(`Error trying to get registered enterprise: ${error}`);
+        return res.status(400).send();
+    }
+}

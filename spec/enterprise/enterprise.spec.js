@@ -165,4 +165,14 @@ describe('Testing enterprise endpoints', () => {
                 res.body.should.have.property('count', 2);
             });
     });
+
+    it('should successfully get all registered accounts', () => {
+        chai.request(server)
+            .get(`${prefix}/enterprise/registered`)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.an('array');
+                res.body.length.should.be.above(7);
+            });
+    });
 });
