@@ -4,6 +4,13 @@ const bcrypt = require('bcrypt');
 
 exports.register = async (req, res) => {
     try {
+        const currentDate = new Date();
+        const formattedDate = currentDate.toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+
         const {password, username} = req.body;
         const isNameRegistered = await db.query('SELECT ettevõtte_nimi FROM reg_kontod WHERE ettevõtte_nimi = ?', [username]);
 
@@ -22,8 +29,8 @@ exports.register = async (req, res) => {
         const saltPassword = await bcrypt.genSalt(5);
         const securePassword = await bcrypt.hash(password, saltPassword);
 
-        await db.query('INSERT INTO `reg_kontod` (`ettevõtte_nimi`, `salasõna`) VALUES (?,?)',
-            [username, securePassword]);
+        await db.query('INSERT INTO `reg_kontod` (`ettevõtte_nimi`, `salasõna`, `kuupäev`) VALUES (?,?,?)',
+            [username, securePassword, formattedDate]);
 
         return res.status(201).send();
 
