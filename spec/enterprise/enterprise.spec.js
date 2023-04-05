@@ -166,13 +166,14 @@ describe('Testing enterprise endpoints', () => {
             });
     });
 
-    it('should successfully get all registered accounts', () => {
+    it('should successfully get all registered accounts except admin', () => {
         chai.request(server)
             .get(`${prefix}/enterprise/registered`)
             .end((err, res) => {
                 res.should.have.status(200);
                 res.body.should.be.an('array');
                 res.body.length.should.be.above(7);
+                res.body.should.not.have.deep.property('name', 'admin');
             });
     });
 });
