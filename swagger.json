@@ -571,6 +571,112 @@
         },
         "summary": "Delete an enterprise specific offer"
       }
+    },
+    "/miits/api/user/offers/locations": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {}
+                },
+                "examples": {
+                  "locations": {
+                    "value": [
+                      "Tartu",
+                      "Pärnu",
+                      "Tallinn"
+                    ]
+                  }
+                }
+              }
+            },
+            "description": "Dynamic locations"
+          }
+        },
+        "summary": "Send locations dynamically to client",
+        "description": "Get all `locations` regarding the different offers"
+      }
+    },
+    "/miits/api/enterprise/offers/:enterprise/count": {
+      "get": {
+        "tags": [
+          "Enterprise"
+        ],
+        "parameters": [
+          {
+            "examples": {
+              "enterprise": {
+                "value": "KolmTilli"
+              }
+            },
+            "name": "enterprise",
+            "description": "",
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "count": {
+                    "value": {
+                      "count": 4
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Enterprise offer count"
+          }
+        },
+        "summary": "Get the offer count for a specific enterprise account",
+        "description": "Get the `count` of offers"
+      }
+    },
+    "/miits/api/enterprise/registered": {
+      "get": {
+        "tags": [
+          "Enterprise"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "registered": {
+                    "value": [
+                      {
+                        "id": 5,
+                        "name": "Shooters",
+                        "joined_at": "04.05.2023"
+                      },
+                      {
+                        "id": 6,
+                        "name": "Level",
+                        "joined_at": "03.10.2023"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "description": "Successfully get all registered accounts"
+          }
+        },
+        "summary": "Get all registered enterprises",
+        "description": "Get all enterprises that are registered with `Miits`"
+      }
     }
   },
   "components": {
