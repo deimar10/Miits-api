@@ -40,19 +40,19 @@ describe('Testing user endpoints', () => {
 
     it('should get a single offer', () => {
         chai.request(server)
-            .get(`${prefix}/user/offers/offer-details/Mimmer`)
+            .get(`${prefix}/user/offers/offer-details/Spirit`)
             .end((err, res) => {
                 res.should.have.status(200);
                 res.body.should.be.an('object');
-                res.body.should.have.property('id', 48);
-                res.body.should.have.property('title', 'Mimmer');
-                res.body.should.have.property('reg_konto_fk', 1);
+                res.body.should.have.property('id', 328);
+                res.body.should.have.property('title', 'Spirit');
+                res.body.should.have.property('reg_konto_fk', 73);
             });
     });
 
     it('should create a new offer specific feedback in the tagasiside table', () => {
         chai.request(server)
-            .post(`${prefix}/user/feedback/Strimmer`)
+            .post(`${prefix}/user/feedback/Spirit`)
             .send({ name: 'Martin', comment: 'Mega pidu!'})
             .end((err, res) => {
                 res.should.have.status(201);

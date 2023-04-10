@@ -14,7 +14,7 @@ describe('Testing enterprise endpoints', () => {
     it('should successfully register an enterprise', (done) => {
         chai.request(server)
             .post(`${prefix}/enterprise/register`)
-            .send({ username: 'KolmTilli', password: 'Lollakas1!'})
+            .send({ username: 'Rüütli', password: 'Lollakas1!'})
             .end((err, res) => {
                 res.should.have.status(201);
                 done();
@@ -54,7 +54,7 @@ describe('Testing enterprise endpoints', () => {
     it('should successfully .auth enterprise', (done) => {
         chai.request(server)
             .post(`${prefix}/enterprise/login`)
-            .send({ username: 'KolmTilli', password: 'Lollakas1!' })
+            .send({ username: 'Rüütli', password: 'Lollakas1!' })
             .end((err, res) => {
                 res.should.have.status(201);
                 res.body.should.be.an('object');
@@ -66,7 +66,7 @@ describe('Testing enterprise endpoints', () => {
     it('should fail to .auth enterprise', () => {
         chai.request(server)
             .post(`${prefix}/enterprise/login`)
-            .send({ username: 'KolmTilli', password: 'Lollak' })
+            .send({ username: 'Rüütli', password: 'Lollak' })
             .end((err, res) => {
                 res.should.have.status(401);
                 res.body.should.be.an('object');
@@ -110,7 +110,7 @@ describe('Testing enterprise endpoints', () => {
             });
     });
 
-    it('should fail to create a new offer', (done) => {
+    it('should fail to create a new offer', () => {
         chai.request(server)
             .post(`${prefix}/enterprise/offer/create`)
             .send({
@@ -128,7 +128,6 @@ describe('Testing enterprise endpoints', () => {
             .end((err, res) => {
                 res.should.have.status(400);
                 res.error.message.should.be.a('string', 'Error: Incorrect date format');
-                done();
             });
     });
 
