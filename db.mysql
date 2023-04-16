@@ -1,0 +1,81 @@
+CREATE TABLE miits.REG_KONTOD
+(
+    reg_konto_id   int NOT NULL AUTO_INCREMENT,
+    ettevõtte_nimi VARCHAR(30),
+    salasõna       VARCHAR(255),
+    kuupäev        VARCHAR(255),
+    PRIMARY KEY (reg_konto_id)
+);
+
+CREATE TABLE miits.PAKKUMISED
+(
+    id int NOT NULL AUTO_INCREMENT,
+    upcoming      tinyint(1),
+    favorite      tinyint(1),
+    enterprise    VARCHAR(30),
+    title         VARCHAR(30),
+    category      VARCHAR(30),
+    slug          VARCHAR(30),
+    location      VARCHAR(30),
+    date          VARCHAR(30),
+    price         DOUBLE(10, 3),
+    image         VARCHAR(255),
+    description   VARCHAR(255),
+    PRIMARY KEY (id),
+    reg_konto_fk  int,
+    FOREIGN KEY (reg_konto_fk) REFERENCES REG_KONTOD (reg_konto_id)
+);
+
+CREATE TABLE miits.TAGASISIDE
+(
+    tagasiside_id int NOT NULL AUTO_INCREMENT,
+    name          VARCHAR(30),
+    comment       VARCHAR(255),
+    PRIMARY KEY (tagasiside_id),
+    pakkumised_fk int,
+    FOREIGN KEY (pakkumised_fk) REFERENCES PAKKUMISED (id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+ALTER TABLE miits.PAKKUMISED
+    ADD COLUMN tagasiside_fk int,
+    ADD FOREIGN KEY (tagasiside_fk) REFERENCES TAGASISIDE (tagasiside_id);
+
+INSERT INTO miits.REG_KONTOD (ettevõtte_nimi, salasõna, kuupäev)
+VALUES ('Level', '$2b$05$fgrSCVyTtTW1OpvfQYQfc.M7Fn8a3Sf17AkFyihA0.OgbLoJOy9nq', '03/05/2023'),
+       ('Shooters', '$2b$05$DbnKs8wtsTdswB5ofMPNvO9kZNL/n/FdrfdvQQsbm48SXuhVK6W/S', '02/12/2022'),
+       ('Milyam', '$2b$05$iM71nEJk/blOGxzyAPUk0utEmb/ba.UGrYVkOmnw.SahlIsjP7OZi', '06/05/2023'),
+       ('Ruuskalu', '$2b$05$LdcUHI0JueT572PyfyOrZe0JJV5tz6TgTTs/MU8xiy8p/BBMAeNHi', '02/11/2023'),
+       ('Veski', '$2b$05$0Zmk9bYOeB14.e/LUp/3Ee2P/4ke2lYJwMgBM1SbmS0R4uKfark56', '10/11/2023'),
+       ('KolmTilli', '$2b$05$xce72WI3RvLEwdAE0NIPT.mVmBPhqlTaK5YSopCwSXVrRMnpI2N2C', '09/07/2023'),
+       ('Musketäär', '$2b$05$U9ZBLQgqJ/Df2OuQaMAo/uALokOKB/hUKJvHzISjTahhE6wM7jZAW', '04/05/2023'),
+       ('Admin', '$2b$05$Jucg3zELYZzDWcSNvA0czOW5yGltOv5yqEiv6w7mlVluY1OkChs6K', '03/02/2023');
+
+INSERT INTO miits.PAKKUMISED (upcoming, favorite, enterprise, title, category, slug, location, date, price, image, description, reg_konto_fk)
+VALUES
+    (0,0,'Shooters','GigaBang-Shooters','Event','GigaBang-Shooters','Tartu','01.08.2023',35,'/assets/Images/offers/gigabang.jpg','Tänavune suurim üritus, kus Dj Matrix & Lulle astuvad taas kord Shoortersis lavale.',2),
+    (0,0,'Musketäär','Old-Fashioned','Drinks','Old-Fashioned','Pärnu','01.12.2023',9,'/assets/Images/offers/old-fashioned.jpeg','Old fashioned on kokteil, mida valmistatakse suhkru segamisel bitterite ja veega, lisades viskit (tavaliselt rukki või bourbon) ja meie enda väikest väänet baaris Musketäär.',7),
+    (0,0,'Level','LevelUp','Event','LevelUp','Tartu','01.09.2023',15,'/assets/Images/offers/level-up.jpeg','Tule tantsima klubisse Level. Nautige suurepärast muusikat koos dj Heikiga.',1),
+    (0,0,'Milyam','Turn-it-up','Event','Turn-it-up','Tallinn','03.06.2023',50,'/assets/Images/offers/turn-it-up.jpeg','Suurim sündmus klubis Milyam.',3),
+    (0,0,'Ruuskalu','Beer-n-Bugs','Drinks','Beer-n-Bugs','Pärnu','04.09.2023',4.99,'/assets/Images/offers/beer-n-bugs.jpg','Soovid proovida midagi uut? Nüüd on sinu võimalus proovida meie enda eksootilist õllesegu baaris Ruuskalu.',4),
+    (0,0,'Shooters','Lemon','Drinks','Lemon','Tartu','04.10.2023',6.99,'/assets/Images/offers/lemon.jpg','The Lemon on prantsuse kokteil, mis sisaldab kollast Curaçao''t segatuna viina ja limonaadiga. Tulge võtke lonksu klubis Shooters!',1),
+    (0,0,'Level','VelvetVodka','Drinks','VelvetVodka','Tartu','03.20.2023',8.99,'/assets/Images/offers/velvet-vodka.jpeg','Magusas ja maitsvas punase sametkooki kokteilis on kasutatud punase sametkooki maitsestatud viina, mis on segatud kreem-sooda ja värskete maasikatega. Ainult parimad klubis Level!',1),
+    (0,0,'Veski','Cobra','Drinks','Cobra','Tallinn','09.04.2023',11,'/assets/Images/offers/cobra.jpg','Tule ja naudi meie uusi viinašotte baaris Veski',5),
+    (0,0,'KolmTilli','Triple-Effect','Event','Triple-Effect','Tartu','05.20.2023',17.98,'/assets/Images/offers/triple-effect.jpg','Tulge nautima meie hästi tasakaalustatud džinnikokteile baaris Kolm Tilli.',6),
+    (0,0,'KolmTilli','Seiklus','Drinks','Seiklus','Tartu','04.13.2024',20,'https://firebasestorage.googleapis.com/v0/b/miits-images.appspot.com/o/files%2Fsoft.jpg?alt=media&token=240f3df3-8598-485a-85ac-8dd3531499ca','Tule seikle!',6),
+    (0,0,'KolmTilli','KireVile','Drinks','KireVile','Tartu','03.20.2022',40,'https://firebasestorage.googleapis.com/v0/b/miits-images.appspot.com/o/files%2Fice.jpg?alt=media&token=5ee9e20b-003b-424a-913a-66b0c3041918','See on seda väärt!',6),
+    (0,0,'KolmTilli','Spirit','Drinks','Spirit','Tartu','02.01.2022',30,'https://firebasestorage.googleapis.com/v0/b/miits-images.appspot.com/o/files%2Fdrink2.webp?alt=media&token=987b849d-e4b6-4c03-8db2-3787dda4b2db','Meie joogid hakkavad lausa hingele.',6);
+
+INSERT INTO miits.TAGASISIDE (name, comment, pakkumised_fk)
+VALUES ('Madis', 'Lahe sündmus. Natuke kallis.', 1),
+       ('Milfe', 'Ei jõua ära oodata!', 1),
+       ('Tauri', 'Muljetavaldav kraam. Kindlasti kutsun kõik oma sõbrad.', 1),
+       ('Kalle', 'Sheeeesh. See teeb minu aasta!', 1),
+       ('Shaggy', 'Ma loodan, et see on parem kui eelmise aasta pidu.', 1),
+       ('Laura', 'See on nagu super odav. Äge!', 2),
+       ('Madis', 'Ei, aitäh. Muusika ei ole nii hea.', 3),
+       ('Laura', 'Ma vihkan selliseid pidusid!', 3),
+       ('Vilma', 'Ei äitah.', 4),
+       ('Karl', 'Kõlab huvitavalt. Vast osalen.', 4),
+       ('Sandra', 'Ma soovin, et Milyamis ei oleks nii palju rahvast. See on jama.', 4),
+       ('Andres', 'Ma ei tea...kõlab kohutavalt.', 5),
+       ('Mari', 'Väga lahe!', 1);
