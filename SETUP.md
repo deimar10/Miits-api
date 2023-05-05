@@ -18,7 +18,8 @@
 ### Database migration
 - Download the mysql installer.
 - Create a copy of the `.env.sample` file and save it as `.env`
-- You can use your own db username & password to connect to the database.
+- In IDE, you can use your own db username & password to connect to the database, leave the db name empty.
+- Create a schema `miits`.
 - Save the `db.mysql` file to local device and run SQL script on the DB via the IDE database UI.
 
 ### Starting the server
