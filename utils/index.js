@@ -14,13 +14,11 @@ function checkDateFormat(date) {
 }
 
 async function assignFeedbackToOffer(offers) {
-    let feedback;
+    return await Promise.all(offers.map(async (offer) => {
+        const feedback = await db.query('SELECT * FROM tagasiside WHERE pakkumised_fk = ?', [offer.id]);
 
-    for (let offer of offers) {
-        feedback = await db.query('SELECT * FROM tagasiside WHERE pakkumised_fk = ?', [offer.id]);
-        offer.feedback = feedback;
-    }
-    return offers;
+        return {...offer, feedback: feedback};
+    }));
 }
 
 module.exports = {sanitizeInput, checkDateFormat, assignFeedbackToOffer}
