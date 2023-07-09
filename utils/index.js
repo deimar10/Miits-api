@@ -1,12 +1,15 @@
 const db = require("../models/db");
 
 function sanitizeInput(input) {
-    for (const propName in input) {
-        if (typeof input[propName] === 'string') {
-            input[propName] = input[propName].replace(/^\s+|\s+$/g, '');
+    const sanitizeInput = {...input};
+
+    for (const propName in sanitizeInput) {
+        if (typeof sanitizeInput[propName] === 'string') {
+            sanitizeInput[propName] = sanitizeInput[propName].trim();
         }
     }
-    return input;
+
+    return sanitizeInput;
 }
 
 function checkDateFormat(date) {
