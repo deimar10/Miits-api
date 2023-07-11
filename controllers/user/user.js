@@ -1,4 +1,4 @@
-const { sanitizeInput, assignFeedbackToOffer } = require('../../utils/index');
+const {sanitizeInput, assignFeedbackToOffer} = require('../../utils');
 const db = require('../../models/db');
 
 exports.getOffers = async (req, res) => {

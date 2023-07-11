@@ -1,4 +1,4 @@
-const { sanitizeInput, checkDateFormat, assignFeedbackToOffer } = require('../../utils/index');
+const {sanitizeInput, checkDateFormat, assignFeedbackToOffer} = require('../../utils');
 const db = require('../../models/db');
 const bcrypt = require('bcrypt');
 
