@@ -1,4 +1,4 @@
-const {sanitizeInput, checkDateFormat, assignFeedbackToOffer} = require('../../utils');
+const {sanitizeInput, checkDateFormat, assignFeedbackToOffer, generateJwt} = require('../../utils');
 const db = require('../../models/db');
 const bcrypt = require('bcrypt');
 
@@ -26,11 +26,13 @@ exports.register = async (req, res) => {
             throw Error('Name already taken');
         }
 
+        const enterpriseJwt = await generateJwt(username);
+
         const saltPassword = await bcrypt.genSalt(5);
         const securePassword = await bcrypt.hash(password, saltPassword);
 
-        await db.query('INSERT INTO `reg_kontod` (`ettevõtte_nimi`, `salasõna`, `kuupäev`) VALUES (?,?,?)',
-            [username, securePassword, formattedDate]);
+        await db.query('INSERT INTO `reg_kontod` (`ettevõtte_nimi`, `salasõna`, `kuupäev`, `sessioon_token`) VALUES (?,?,?,?)',
+            [username, securePassword, formattedDate, enterpriseJwt]);
 
         return res.status(201).send();
 
@@ -43,9 +45,9 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
     try {
         const {password, username} = req.body;
-        const registeredPassword = await db.query('SELECT salasõna FROM reg_kontod WHERE ettevõtte_nimi = ?', [username]);
+        const enterpriseLoginInfo = await db.query('SELECT salasõna, sessioon_token FROM reg_kontod WHERE ettevõtte_nimi = ?', [username]);
 
-        bcrypt.compare(password, registeredPassword[0].salasõna, (err, data) => {
+        bcrypt.compare(password, enterpriseLoginInfo[0].salasõna, (err, data) => {
             if (err) throw Error;
             if (!data) {
                 return res.status(401).json({auth: false});
@@ -56,7 +58,7 @@ exports.login = async (req, res) => {
                     res.status(201).json({admin: true});
                     break;
                 default:
-                    res.status(201).json({auth: true});
+                    res.status(201).json({auth: true, session: enterpriseLoginInfo[0].sessioon_token});
                     break;
             }
         });

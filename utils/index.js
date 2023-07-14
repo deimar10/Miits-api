@@ -1,4 +1,8 @@
 const db = require("../models/db");
+const dotenv = require("dotenv");
+const jwt = require('jsonwebtoken');
+
+dotenv.config();
 
 function sanitizeInput(input) {
     const sanitizeInput = {...input};
@@ -24,4 +28,10 @@ async function assignFeedbackToOffer(offers) {
     }));
 }
 
-module.exports = {sanitizeInput, checkDateFormat, assignFeedbackToOffer}
+function generateJwt(enterpriseId) {
+    const privateKey = process.env.PR_KEY;
+
+    return jwt.sign({"user_id": `${enterpriseId}`}, privateKey, {algorithm: 'HS256'});
+}
+
+module.exports = {sanitizeInput, checkDateFormat, assignFeedbackToOffer, generateJwt}
