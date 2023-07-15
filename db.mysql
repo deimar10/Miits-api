@@ -4,6 +4,7 @@ CREATE TABLE miits.REG_KONTOD
     ettevõtte_nimi VARCHAR(30),
     salasõna       VARCHAR(255),
     kuupäev        VARCHAR(255),
+    sessioon_token VARCHAR(255),
     PRIMARY KEY (reg_konto_id)
 );
 
@@ -40,15 +41,16 @@ ALTER TABLE miits.PAKKUMISED
     ADD COLUMN tagasiside_fk int,
     ADD FOREIGN KEY (tagasiside_fk) REFERENCES TAGASISIDE (tagasiside_id);
 
-INSERT INTO miits.REG_KONTOD (ettevõtte_nimi, salasõna, kuupäev)
-VALUES ('Level', '$2b$05$fgrSCVyTtTW1OpvfQYQfc.M7Fn8a3Sf17AkFyihA0.OgbLoJOy9nq', '03/05/2023'),
-       ('Shooters', '$2b$05$DbnKs8wtsTdswB5ofMPNvO9kZNL/n/FdrfdvQQsbm48SXuhVK6W/S', '02/12/2022'),
-       ('Milyam', '$2b$05$iM71nEJk/blOGxzyAPUk0utEmb/ba.UGrYVkOmnw.SahlIsjP7OZi', '06/05/2023'),
-       ('Ruuskalu', '$2b$05$LdcUHI0JueT572PyfyOrZe0JJV5tz6TgTTs/MU8xiy8p/BBMAeNHi', '02/11/2023'),
-       ('Veski', '$2b$05$0Zmk9bYOeB14.e/LUp/3Ee2P/4ke2lYJwMgBM1SbmS0R4uKfark56', '10/11/2023'),
-       ('KolmTilli', '$2b$05$xce72WI3RvLEwdAE0NIPT.mVmBPhqlTaK5YSopCwSXVrRMnpI2N2C', '09/07/2023'),
-       ('Musketäär', '$2b$05$U9ZBLQgqJ/Df2OuQaMAo/uALokOKB/hUKJvHzISjTahhE6wM7jZAW', '04/05/2023'),
-       ('Admin', '$2b$05$Jucg3zELYZzDWcSNvA0czOW5yGltOv5yqEiv6w7mlVluY1OkChs6K', '03/02/2023');
+INSERT INTO miits.REG_KONTOD (ettevõtte_nimi, salasõna, kuupäev, sessioon_token)
+VALUES ('Level', '$2b$05$fgrSCVyTtTW1OpvfQYQfc.M7Fn8a3Sf17AkFyihA0.OgbLoJOy9nq', '03/05/2023', ''),
+       ('Shooters', '$2b$05$DbnKs8wtsTdswB5ofMPNvO9kZNL/n/FdrfdvQQsbm48SXuhVK6W/S', '02/12/2022', ''),
+       ('Milyam', '$2b$05$iM71nEJk/blOGxzyAPUk0utEmb/ba.UGrYVkOmnw.SahlIsjP7OZi', '06/05/2023', ''),
+       ('Ruuskalu', '$2b$05$LdcUHI0JueT572PyfyOrZe0JJV5tz6TgTTs/MU8xiy8p/BBMAeNHi', '02/11/2023', ''),
+       ('Veski', '$2b$05$0Zmk9bYOeB14.e/LUp/3Ee2P/4ke2lYJwMgBM1SbmS0R4uKfark56', '10/11/2023', ''),
+       ('KolmTilli', '$2b$05$xce72WI3RvLEwdAE0NIPT.mVmBPhqlTaK5YSopCwSXVrRMnpI2N2C', '09/07/2023', ''),
+       ('Musketäär', '$2b$05$U9ZBLQgqJ/Df2OuQaMAo/uALokOKB/hUKJvHzISjTahhE6wM7jZAW', '04/05/2023', ''),
+       ('Vaarikas', '$2b$05$Iyx0FdjzW2kcvKTMKF1L6u.N6PK5U8jFKEyH3tPxE/xmjlMXlruXq', '14/07/2023', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiVmFhcmlrYXMiLCJpYXQiOjE2ODkzNDMwMDF9.MWZaLpL3a82NIV8T2vnk-eJGLk3u8lmYewD4iW10YQ4'),
+       ('Admin', '$2b$05$Jucg3zELYZzDWcSNvA0czOW5yGltOv5yqEiv6w7mlVluY1OkChs6K', '03/02/2023', '');
 
 INSERT INTO miits.PAKKUMISED (upcoming, favorite, enterprise, title, category, slug, location, date, price, image, description, reg_konto_fk)
 VALUES
