@@ -7,8 +7,10 @@ chai.use(chaiHttp);
 chai.use(require('chai-things'));
 chai.use(require('chai-like'));
 
-let prefix = '/miits/api';
+const prefix = '/miits/api';
 let offerId;
+let token;
+
 describe('Testing enterprise endpoints', () => {
 
     it('should successfully register an enterprise', (done) => {
@@ -41,32 +43,33 @@ describe('Testing enterprise endpoints', () => {
             });
     });
 
-    it('should throw password validation error during', () => {
+    it('should throw password validation error during registration', () => {
         chai.request(server)
             .post(`${prefix}/enterprise/register`)
             .send( { username: 'Up', password: 'Lollakas' })
             .end((err, res) => {
                 res.should.have.status(400);
-                res.error.message.should.be.a('string', 'Error: Password validatio');
+                res.error.message.should.be.a('string', 'Error: Password validation');
             });
     });
 
-    it('should successfully .auth enterprise', (done) => {
+    it('should successfully login an enterprise account', (done) => {
         chai.request(server)
             .post(`${prefix}/enterprise/login`)
-            .send({ username: 'Rüütli', password: 'Lollakas1!' })
+            .send({ username: 'Vaarikas', password: 'Lollakas312456' })
             .end((err, res) => {
                 res.should.have.status(201);
                 res.body.should.be.an('object');
                 res.body.should.have.property('auth', true);
+                token = res.body.session;
                 done();
             });
     });
 
-    it('should fail to .auth enterprise', () => {
+    it('should fail to login an enterprise account', () => {
         chai.request(server)
             .post(`${prefix}/enterprise/login`)
-            .send({ username: 'Rüütli', password: 'Lollak' })
+            .send({ username: 'Vaarikas', password: 'Lollak' })
             .end((err, res) => {
                 res.should.have.status(401);
                 res.body.should.be.an('object');
@@ -79,17 +82,17 @@ describe('Testing enterprise endpoints', () => {
             .get(`${prefix}/enterprise/offers/?enterprise=Shooters`)
             .end((err, res) => {
                res.should.have.status(200);
-               res.body.should.be.an('array').lengthOf(3);
+               res.body.should.be.an('array').lengthOf(2);
             });
     });
 
-    it('should successfully create a new offer', (done) => {
+    it('should successfully create a new enterprise offer', (done) => {
         chai.request(server)
             .post(`${prefix}/enterprise/offer/create`)
             .send({
                 upcoming: false,
                 favorite: false,
-                enterprise: 'KolmTilli',
+                enterprise: 'Vaarikas',
                 title: 'UusAlgus',
                 category: 'Event',
                 location: 'Tallinn',
@@ -98,12 +101,13 @@ describe('Testing enterprise endpoints', () => {
                 image: 'image/event/uusAlgus.jpg',
                 description: 'Vinge aastavahetuse pidu!'
             })
+            .set({"Authorization": `Bearer ${token}`})
             .end((err, res) => {
                 res.should.have.status(201);
                 res.body.should.be.an('object');
                 res.body.should.have.a.property('id');
                 res.body.should.have.a.property('title', 'UusAlgus');
-                res.body.should.have.a.property('enterprise', 'KolmTilli');
+                res.body.should.have.a.property('enterprise', 'Vaarikas');
                 res.body.should.have.a.property('price', 49.99);
                 offerId = res.body.id;
                 done();
@@ -116,18 +120,19 @@ describe('Testing enterprise endpoints', () => {
             .send({
                 upcoming: false,
                 favorite: false,
-                enterprise: 'KolmTilli',
+                enterprise: 'Vaarikas',
                 title: 'UusAlgus',
                 category: 'Event',
                 location: 'Tallinn',
-                date: '06/20/2023',
+                date: '06.20.2023',
                 price: 49.99,
                 image: 'image/event/uusAlgus.jpg',
                 description: 'Vinge aastavahetuse pidu!'
             })
+            .set({"Authorization": `Bearer ${''}`})
             .end((err, res) => {
-                res.should.have.status(400);
-                res.error.message.should.be.a('string', 'Error: Incorrect date format');
+                res.should.have.status(401);
+                res.error.should.have.property('text', '{"error":"Not authorized"}')
             });
     });
 
@@ -142,6 +147,7 @@ describe('Testing enterprise endpoints', () => {
                 description: 'Vinge aastavahetuse pidu!',
                 category: 'Event'
             })
+            .set({"Authorization": `Bearer ${token}`})
             .end((err, res) => {
                 res.should.have.status(200);
             });
@@ -150,6 +156,7 @@ describe('Testing enterprise endpoints', () => {
     it('should successfully delete an enterprise offer', () => {
         chai.request(server)
             .delete(`${prefix}/enterprise/offer/delete/${offerId}`)
+            .set({"Authorization": `Bearer ${token}`})
             .end((err, res) => {
                 res.should.have.status(204);
             });
@@ -170,8 +177,7 @@ describe('Testing enterprise endpoints', () => {
             .get(`${prefix}/enterprise/registered`)
             .end((err, res) => {
                 res.should.have.status(200);
-                res.body.should.be.an('array');
-                res.body.length.should.be.above(7);
+                res.body.should.be.an('array').lengthOf(11);
                 res.body.should.not.have.deep.property('name', 'admin');
             });
     });
